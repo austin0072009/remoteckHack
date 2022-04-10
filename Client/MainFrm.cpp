@@ -97,7 +97,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CXTPFrameWnd)
 	ON_WM_TIMER()
 	ON_WM_SYSCOMMAND()
 	//}}AFX_MSG_MAP
-	ON_COMMAND(XTP_ID_CUSTOMIZE, OnCustomize)
+	//ON_COMMAND(XTP_ID_CUSTOMIZE, OnCustomize)
 	ON_MESSAGE(WM_REMOVEFROMLIST, OnRemoveFromList)
 	ON_MESSAGE(WM_OPENMANAGERDIALOG, OnOpenManagerDialog)
 	ON_MESSAGE(WM_OPENSHELLDIALOG, OnOpenShellDialog)
@@ -175,27 +175,27 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create tray icon\n");
 		return -1;
 	}
-   	SetMenu(NULL);//去除菜单
+   	//SetMenu(NULL);//去除菜单
 //////////////////////////////////////////////////////////
-	CXTPToolBar* pCommandBar = (CXTPToolBar*)pCommandBars->Add(_T("主工具栏"), xtpBarTop);
-	if (!pCommandBar ||
-		!pCommandBar->LoadToolBar(IDR_TOOLBAR3))
-	{
-		TRACE0("Failed to create toolbar\n");
-		return -1;
-	}
-	CImageList m_imagelist;
-	m_imagelist.Create(24,24,ILC_COLOR24|ILC_MASK,0,0);
-    CBitmap bmp;
-	bmp.LoadBitmap(IDB_TOOLBAR);
-	m_imagelist.Add(&bmp,RGB(255,255,255));
-	CXTPCommandBarsOptions* pOptions = pCommandBars->GetCommandBarsOptions();
-	pOptions->bShowExpandButtonAlways = FALSE;
-	pOptions->bShowTextBelowIcons = TRUE;
-	pOptions->bLargeIcons = FALSE;
-	pCommandBar->ModifyBarStyle(CBRS_GRIPPER,0);
-	pCommandBar->EnableDocking(xtpFlagStretched);
-	pCommandBar->GetImageManager()->SetIcons(IDR_TOOLBAR3,m_imagelist);
+	// CXTPToolBar* pCommandBar = (CXTPToolBar*)pCommandBars->Add(_T("主工具栏"), xtpBarTop);
+	// if (!pCommandBar ||
+	// 	!pCommandBar->LoadToolBar(IDR_TOOLBAR3))
+	// {
+	// 	TRACE0("Failed to create toolbar\n");
+	// 	return -1;
+	// }
+	// CImageList m_imagelist;
+	// m_imagelist.Create(24,24,ILC_COLOR24|ILC_MASK,0,0);
+    // CBitmap bmp;
+	// bmp.LoadBitmap(IDB_TOOLBAR);
+	// m_imagelist.Add(&bmp,RGB(255,255,255));
+	// CXTPCommandBarsOptions* pOptions = pCommandBars->GetCommandBarsOptions();
+	// pOptions->bShowExpandButtonAlways = FALSE;
+	// pOptions->bShowTextBelowIcons = TRUE;
+	// pOptions->bLargeIcons = FALSE;
+	// pCommandBar->ModifyBarStyle(CBRS_GRIPPER,0);
+	// pCommandBar->EnableDocking(xtpFlagStretched);
+	// pCommandBar->GetImageManager()->SetIcons(IDR_TOOLBAR3,m_imagelist);
 	RedrawWindow(0, 0, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_ALLCHILDREN);   
 	GetCommandBars()->GetPaintManager()->RefreshMetrics(); 
 
@@ -229,11 +229,17 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// 	LoadCommandBars(_T("CommandBars"));
 // 	SetTimer(0, 1000, NULL);  //开启定时器 1
 
-    	CXTPDockingPane* pwndPaneLog = CreatePane(235, 100, RUNTIME_CLASS(CLogView), _T("信息"), xtpPaneDockTop);
+    	CXTPDockingPane* pwndPaneLog = CreatePane(235, 100, RUNTIME_CLASS(CLogView), _T("信息"), xtpPaneDockBottom);
 	 	pwndPaneLog->Select();
 	 	pwndPaneLog->SetOptions(xtpPaneNoCaption);
 	 	m_paneManager.ShowPane(pwndPaneLog, 1);	
 // 		// 初始化插件内存
+//direction parameter can be one of the following: 
+
+// ?xtpPaneDockTop: Docks the pane to the top of the neighbor.
+// ?xtpPaneDockLeft: Docks the pane to the left of the neighbor.
+// ?xtpPaneDockRight: Docks the pane to the right of the neighbor.
+// ?xtpPaneDockBottom: Docks the pane to the bottom of the neighbor.
 	
 		// File
 		nFilePacketLength = (FILEMyFileSize + 1)*sizeof(char)+1;

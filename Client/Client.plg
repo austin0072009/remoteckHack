@@ -6,6 +6,111 @@
 --------------------Configuration: Client - Win32 Release--------------------
 </h3>
 <h3>Command Lines</h3>
+Creating temporary file "C:\Users\andi\AppData\Local\Temp\RSP871B.tmp" with contents
+[
+/nologo /MT /W4 /GR /GX /Ox /Ot /Oa /Ow /Og /Oi /Os /Op /I "Include" /I "..\common" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /FAc /Fa"Release/" /Fr"Release/" /Fo"Release/" /Fd"Release/" /FD /Zm1000 /c 
+"C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp"
+]
+Creating command line "cl.exe @C:\Users\andi\AppData\Local\Temp\RSP871B.tmp" 
+Creating temporary file "C:\Users\andi\AppData\Local\Temp\RSP871C.tmp" with contents
+[
+SHLWAPI.LIB smtp.lib ..\common\libxvidcore.lib ..\common\va_g729a.lib vfw32.lib nafxcw.lib LIBCMT.lib /nologo /subsystem:windows /profile /map:"Release/ck安全网.map" /machine:I386 /out:"..\Bin\ck安全网.exe" 
+".\Release\Audio.obj"
+".\Release\AudioDlg.obj"
+".\Release\BmpToAvi.obj"
+".\Release\Buffer.obj"
+".\Release\BuildDlg.obj"
+".\Release\ChangeGroupDlg.obj"
+".\Release\Client.obj"
+".\Release\ClientDoc.obj"
+".\Release\ClientView.obj"
+".\Release\Dialogbar.obj"
+".\Release\FileManagerDlg.obj"
+".\Release\FileTransferModeDlg.obj"
+".\Release\HtmlCtrl.obj"
+".\Release\IniFile.obj"
+".\Release\InputDlg.obj"
+".\Release\IOCPServer.obj"
+".\Release\KeyBoardDlg.obj"
+".\Release\LFileName.obj"
+".\Release\LocalUpload.obj"
+".\Release\LogView.obj"
+".\Release\MainFrm.obj"
+".\Release\MsgBoxDlg.obj"
+".\Release\Mydat.obj"
+".\Release\OpenProxy.obj"
+".\Release\PcView.obj"
+".\Release\PrankDlg.obj"
+".\Release\ProxyMapDlg.obj"
+".\Release\RegeditDlg.obj"
+".\Release\RegeditTextDlg.obj"
+".\Release\ScreenSpyDlg.obj"
+".\Release\ServiceDlg.obj"
+".\Release\ServiceInfoDlg.obj"
+".\Release\SetColor.obj"
+".\Release\SettingDlg.obj"
+".\Release\SEU_QQwry.obj"
+".\Release\ShellDlg.obj"
+".\Release\ShowWave.obj"
+".\Release\SoundToWav.obj"
+".\Release\Start.obj"
+".\Release\StartupDlg.obj"
+".\Release\StdAfx.obj"
+".\Release\SystemDlg.obj"
+".\Release\TextChatDlg.obj"
+".\Release\TrueColorToolBar.obj"
+".\Release\WebCamDlg.obj"
+".\Release\XvidDec.obj"
+".\Release\XvidEnc.obj"
+".\Release\Client.res"
+".\USkin.lib"
+]
+Creating command line "link.exe @C:\Users\andi\AppData\Local\Temp\RSP871C.tmp"
+<h3>Output Window</h3>
+Compiling...
+Command line warning D4025 : overriding '/Ot' with '/Os'
+MainFrm.cpp
+Automatically linking with ToolkitPro1501vc60S.lib
+C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\xmemory(39) : warning C4100: '_P' : unreferenced formal parameter
+C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\xmemory(41) : warning C4100: '_P' : unreferenced formal parameter
+C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\vector(249) : warning C4663: C++ language change: to explicitly specialize class template 'vector' use the following syntax:
+        template<> class vector<bool,class std::allocator<unsigned int> > ...
+C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\xlocale(296) : warning C4663: C++ language change: to explicitly specialize class template 'codecvt' use the following syntax:
+        template<> class codecvt<unsigned short,char,int> ...
+C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\xlocale(387) : warning C4018: '<' : signed/unsigned mismatch
+C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\xlocale(519) : warning C4663: C++ language change: to explicitly specialize class template 'ctype' use the following syntax:
+        template<> class ctype<char> ...
+C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\xlocale(552) : warning C4100: '_D' : unreferenced formal parameter
+C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\xlocale(554) : warning C4100: '_D' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(837) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(957) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(972) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(986) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(1001) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(1015) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(1027) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(1039) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(1051) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(1065) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(1132) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(1153) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(1167) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(1179) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(1197) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Users\andi\Desktop\ck安全网\Client\MainFrm.cpp(1233) : warning C4100: 'wParam' : unreferenced formal parameter
+C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\streambuf(181) : warning C4100: '_Loc' : unreferenced formal parameter
+        C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\streambuf(182) : while compiling class-template member function 'void __thiscall std::basic_streambuf<char,struct std::char_traits<char> >::imbue(const class std::locale &)'
+C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\streambuf(181) : warning C4100: '_Loc' : unreferenced formal parameter
+        C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\streambuf(182) : while compiling class-template member function 'void __thiscall std::basic_streambuf<unsigned short,struct std::char_traits<unsigned short> >::imbue(const class std::locale &)'
+C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\vector(156) : warning C4018: '<' : signed/unsigned mismatch
+        C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\vector(156) : while compiling class-template member function 'void __thiscall std::vector<unsigned int,class std::allocator<unsigned int> >::insert(unsigned int *,unsigned int,const unsigned int &)'
+C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\vector(167) : warning C4018: '<' : signed/unsigned mismatch
+        C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\vector(156) : while compiling class-template member function 'void __thiscall std::vector<unsigned int,class std::allocator<unsigned int> >::insert(unsigned int *,unsigned int,const unsigned int &)'
+C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\xstring(600) : warning C4245: 'initializing' : conversion from 'const int' to 'const unsigned int', signed/unsigned mismatch
+        C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\xmemory(59) : while compiling class-template static data member 'const unsigned int std::basic_string<char,std::char_traits<char>,std::allocator<char> >::npos'
+C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\xmemory(37) : warning C4100: '_P' : unreferenced formal parameter
+        C:\Program Files (x86)\Microsoft Visual Studio\VC98\INCLUDE\xmemory(68) : see reference to function template instantiation 'void __cdecl std::_Destroy(unsigned int *)' being compiled
+Linking...
 
 
 
