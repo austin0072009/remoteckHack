@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Codejock Software Migration Guide</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+<style type="text/css">
+    ol.Type ul li {
+        border-bottom: 1px dotted #9cb2bd;
+        padding: 20px 0;
+    }
+    ol.Type ul.a {
+        margin-left: 0px;
+        padding: 2px;
+    }
+    ol.Type ul.a {
+        margin-left: 0px;
+        padding: 2px;
+    }
+    ol.Type li.b {
+        border: none;
+        padding: 8px 0;
+    }
+    strong
+    {
+        font-weight: normal;
+        color: #db7100;
+    }
+</style>
+<body>
+<div id="content">
+    <h1>Codejock Software Migration Guide</h1>
+
+    <p>Codejock Software's migrating guide notes include all API changes that you must apply in your application.</p>
+
+    <p>[ <a href="migration_guide.htm">Home</a> ]</a></p>
+
+<div class="Note">
+    <div class="Version">Version 12.0.0</div>
+    <div class="Released">Released: April 28, 2008</div>
+    <div class="Type">Visual C++:</div>
+    <ol class="Type">
+        <li>Toolkit Pro<ul>
+<li>
+SPRINTF_S method generated errors with /clr build option. It was removed from our sources. 
+To fix compiler error replace SPRINTF_S to _vstprintf and remove second parameter.<br /><br />
+
+<strong>Example:</strong><br /><br />
+
+<b>Previous versions:</b>
+<pre>
+    SPRINTF_S(buff, _countof(buff), _T("%lu"), count);
+</pre>
+
+<b>12.0.0 and higher versions:</b>
+
+<pre>
+    //Add this to the top of the source file where SPRINTF_S is used
+    AFX_INLINE int SPRINTF_S(TCHAR *buffer, size_t count, const TCHAR* format, ...) {
+        va_list args;
+        va_start(args, format);
+    #if (_MSC_VER > 1310) // VS2005
+        int result = _vstprintf_s(buffer, count, format, args);
+    #else
+        int result = _vstprintf(buffer, format, args);UNREFERENCED_PARAMETER(count);
+    #endif
+        va_end(args);
+        return result;
+    }
+
+    //If using the above code you can leave your function as it was, or you can modify the above code
+    //to suite your version of Visual Studio
+    SPRINTF_S(buff, _countof(buff), _T("%lu"), count);
+</pre>							
+</li>
+<li>
+Color resources moved to Common sources. Use XTP_IDS_CLR_XXX instead of XT_IDS_CLR_XXX.<br/><br/>
+
+For example replace XT_IDS_CLR_WHITE to XTP_IDS_CLR_WHITE to fix compiler error<br/><br/>	
+
+<b>Previous versions:</b>
+<pre>
+    XT_IDS_CLR_WHITE
+</pre>
+
+<b>12.0.0 and higher versions:</b>
+<pre>
+    XTP_IDS_CLR_WHITE
+</pre>				
+</li>
+<li>
+CXTPStatusBarLogoPane is obsolete now, use CXTPStatusBarPane instead. Replace CXTPStatusBarLogoPane to CXTPStatusBarPane class.<br/><br/>
+
+<b>Use the following code to create a StatusBar pane with an Icon in 12.0.0 and higher versions:</b>
+
+<pre>
+    CXTPStatusBarPane* pPane = m_wndStatusBar.AddIndicator(ID_INDICATOR_LOGO, 0);
+    pPane->SetText(_T("Codejock Software"));
+    pPane->SetTextColor(0x915f36);
+    CXTPPaintManager::CNonClientMetrics ncm;
+    ncm.lfMenuFont.lfWeight = FW_BOLD;
+    pPane->SetTextFont(&amp;ncm.lfMenuFont);
+</pre>					
+</li>
+<li>
+Reworked CXTResize. Now it uses Window Client size - not whole window rect. CRect CXTResize::m_rcWindow changed to CSize CXTResize::m_szWindow. Instead m_rcWindow member variable use m_szWindow.<br/><br/>
+
+<b>Previous versions:</b>
+<pre>
+    m_szMin = m_rcWindow.Size();
+</pre>
+
+<b>12.0.0 and higher versions:</b>
+<pre>
+    m_szMin = m_szWindow;
+</pre>			
+
+<b>Previous versions:</b>
+<pre>
+    if (rcBorders != m_rcBorders)
+    {
+        CPoint ptOffset(rcBorders.left - m_rcBorders.left, rcBorders.top - m_rcBorders.top);
+
+        CRect rcWindow;
+        GetWindowRect(rcWindow);
+        rcWindow.right += rcBorders.left + rcBorders.right - m_rcBorders.left - m_rcBorders.right;
+        rcWindow.bottom += rcBorders.top + rcBorders.bottom - m_rcBorders.top - m_rcBorders.bottom;
+
+        Offset(ptOffset);
+        m_rcWindow = rcWindow;
+    
+        MoveWindow(rcWindow, TRUE);
+    }
+</pre>
+
+<b>12.0.0 and higher versions:</b>
+<pre>
+    if (rcBorders != m_rcBorders)
+    {
+        CPoint ptOffset(rcBorders.left - m_rcBorders.left, rcBorders.top - m_rcBorders.top);
+        CSize szOffset(rcBorders.left + rcBorders.right - m_rcBorders.left - m_rcBorders.right,
+            rcBorders.top + rcBorders.bottom - m_rcBorders.top - m_rcBorders.bottom);
+
+        CRect rcWindow;
+        GetWindowRect(rcWindow);
+        rcWindow.BottomRight() += szOffset;
+
+        Offset(ptOffset);
+        m_szWindow += szOffset;
+        m_szMin += szOffset;
+    
+        MoveWindow(rcWindow, TRUE);
+    }
+</pre>	
+</li>
+        </ul></li>
+        <li>Command Bars<ul>
+<li>CXTPPrintPreview class moved to our Sources.  Please remove it from your application sources</li>
+<li>Reworked CXTPShortcutManager to allow double key combinations, Format\SetAccel method now requires the CXTPShortcutManagerAccel parameter. Pass CXTPShortcutManagerAccel class to the Format\SetAccel method to fix error.<br/><br/>
+
+<b>The following is a sample that shows how to work with the new classes:</b>
+<pre>	
+    CXTPShortcutManagerAccelTable* pAccelTable = GetCommandBars()->GetShortcutManager()->GetDefaultAccelerator();
+    
+    int nAccelSize = pAccelTable ->GetCount();
+    
+    for (int i = 0; i &lt; nAccelSize; i ++)
+    {
+        CXTPShortcutManagerAccel* accel = pAccelTable->GetAt(i);
+        CString strKey =GetCommandBars()->GetShortcutManager()->Format(accel, NULL);
+    }
+</pre>				
+
+<b>Below are some scenarios that you might need to fix in your code:</b><br /><br />
+
+<strong>Example 1</strong> Variable declared in Header File:<br/><br/>
+
+<b>Previous versions header file:</b>
+<pre>
+    LPACCEL m_lpAccel;
+</pre>
+
+<b>12.0.0 and higher versions header file:</b>
+<pre>
+    CXTPShortcutManagerAccel* m_lpAccel;
+</pre>
+
+<b>Previous versions cpp file:</b>
+<pre>
+    if (m_lpAccel)
+    {
+        m_wndAccel.SetAccel(*m_lpAccel);
+    }
+</pre>
+
+<b>12.0.0 and higher versions cpp file:</b>
+<pre>
+    if (m_lpAccel)
+    {
+        m_wndAccel.SetAccel(m_lpAccel);
+    }
+</pre>				
+    
+<strong>Example 2</strong> Variable declared in CPP File:<br/><br/>
+
+<b>Previous versions cpp file:</b>
+<pre>
+    m_lpAccel = new ACCEL [m_nAccelSize];
+</pre>
+
+<b>12.0.0 and higher versions cpp file:</b>
+<pre>
+    m_lpAccel = new CXTPShortcutManagerAccel [m_nAccelSize];
+</pre>
+
+<strong>Example 3</strong><br/><br/>	
+
+<b>Previous versions cpp file:</b>
+<pre>
+    m_lpAccel = new ACCEL [m_nAccelSize];
+    ::CopyAcceleratorTable (hAccelTable, m_lpAccel, m_nAccelSize);
+</pre>
+
+<b>12.0.0 and higher versions cpp file:</b>
+<pre>
+    int m_nAccelSize = pAccelTable->GetCount();
+    for (int i = 0; i &lt; nAccelSize; i ++)
+    {
+        m_lpAccel[i] = m_pAccelTable->GetAt(i);
+    }
+</pre>
+</li>
+        </ul></li>
+        <li>Ribbon Bar<ul>
+            <li>
+To prevent conflict with Microsoft headers CXTPRibbonBar::IsMinimized, CXTPRibbonBar::SetMinimized were
+renamed to CXTPRibbonBar::IsRibbonMinimized/CXTPRibbonBar::SetRibbonMinimized.<br/><br/>
+
+<strong>Example:</strong><br/><br/>
+
+<b>Previous versions:</b>
+<pre>
+    pRibbonBar->SetMinimized(!pRibbonBar->IsMinimized());
+</pre>
+
+<b>12.0.0 and higher versions:</b>
+<pre>
+    pRibbonBar->SetRibbonMinimized(!pRibbonBar->IsRibbonMinimized());
+</pre>
+        </li>
+        </ul></li>
+    </ol>
+</div>
+
+<div class="Note">
+    <div class="Version">Version 10.1.0</div>
+    <div class="Released">Released: April 5, 2006</div>
+    <div class="Type">Visual C++:</div>
+    <ol class="Type">
+    <li>Calendar<ul>
+        <li>
+The Data Base data provider DB structure changed:<br /><br />
+<b>* Table 'Event'</b><br />
+- Field renamed: from <b>Description</b> to <b>Body</b><br />
+- New field added: <b>ScheduleID</b> type: Number<br />
+- New field added: <b>IsReminder</b> type: Number<br /><br />
+
+<b>* Table 'RecurrencePattern'</b><br />
+- New field added: <b>CustomPropertiesXMLData</b> type: Memo<br /><br />
+
+If you need to use old mdb data fiels with a version 10 - please make corresponding changes manually.
+        </li>
+        <li>
+GetProperty(XTP_CALENDAR_PROP_DBProviderCacheMode) <strong>changed to</strong> GetCacheMode<br />
+SetProperty(XTP_CALENDAR_PROP_DBProviderCacheMode) <strong>changed to</strong> SetCacheMode
+        </li>
+        <li>
+xtpCalendarDBCacheModeOnRepeat<br />
+xtpCalendarDBCacheModeOnClear<br />
+xtpCalendarDBCacheModeOff<br /><br />
+<strong>Renamed as:</strong><br />
+xtpCalendarDPCacheModeOnRepeat<br />
+xtpCalendarDPCacheModeOnClear<br />
+xtpCalendarDPCacheModeOff
+        </li>
+    </ul></li>
+    </ol>
+</div>
+
+<div class="Note">
+    <div class="Version">Version 9.8.0</div>
+    <div class="Released">Released: September 26, 2005</div>
+    <div class="Type">Visual C++:</div>
+    <ol class="Type">
+    <li>Command Bars<ul>
+        <li>
+Reworked CXTPShortcutManager to allow shortcuts customization in Dialogs. XTPShortcutManager glabal function removed, use 
+pCommanBars->GetShortcutManager() instead. CXTPCommandBars::LoadCommandBars and CXTPCommandBars::SaveCommandBars now save/restore 
+shortcuts too. Call pCommanBars->GetShortcutManager()->SetAccelerators(IDR_MAINFRAME) to enable it.
+        </li>
+        <li>
+Reworked CXTPDialog to allow Docking and Customization, Removed CXTPDialog::SetMenuBar because of it. use CXTPCommandBars::SetMenu(...) instead.<br /><br />
+<strong>Example:</strong>
+<pre>
+    VERIFY(InitCommandBars());
+    CXTPCommandBars* pCommandBars = GetCommandBars();
+    pCommandBars->SetMenu(_T("Menu Bar"), IDR_MENU)
+</pre>
+        </li>
+        <li>
+Because of a typo error CXTPControl::GetRawRect and CXTPControl::SetRawRect changed to CXTPControl::GetRowRect and CXTPControl::SetRowRect
+        </li>
+    </ul></li>
+    <li>Report Control<ul>
+        <li>
+CXTPReportView::SetReportCtrl method added to allow custom CXTPReportControl child class, please use CXTPReportView::GetReportCtrl() instead of m_wndReport
+        </li>
+        <li>
+Changed enumerators names: xtpGrid* to xtpReportGrid*; xtpColumn* to xtpReportColumn*
+        </li>
+    </ul></li>
+    </ol>
+</div>
+
+</div>
+</body>
+</html>
