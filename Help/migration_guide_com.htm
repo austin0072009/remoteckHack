@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Codejock Software Migration Guide</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+<style type="text/css">
+    ol.Type ul li {
+        border-bottom: 1px dotted #9cb2bd;
+        padding: 20px 0;
+    }
+    ol.Type ul.a {
+        margin-left: 0px;
+        padding: 2px;
+    }
+    ol.Type ul.a {
+        margin-left: 0px;
+        padding: 2px;
+    }
+    ol.Type li.b {
+        border: none;
+        padding: 8px 0;
+    }
+    strong
+    {
+        font-weight: normal;
+        color: #db7100;
+    }
+</style>
+<body>
+<div id="content">
+    <h1>Codejock Software Migration Guide</h1>
+
+    <p>Codejock Software's migrating guide notes include all API changes that you must apply in your application.</p>
+
+    <p>[ <a href="migration_guide.htm">Home</a> ]</a></p>
+
+<div class="Note">
+    <div class="Version">Version 10.1.0</div>
+    <div class="Released">Released: April 5, 2006</div>
+    <div class="Type">ActiveX:</div>
+    <ol class="Type">
+    <li>Calendar<ul>
+        <li>
+The Data Base data provider DB structure changed:<br /><br />
+<b>* Table 'Event'</b><br />
+- Field renamed: from <b>Description</b> to <b>Body</b><br />
+- New field added: <b>ScheduleID</b> type: Number<br />
+- New field added: <b>IsReminder</b> type: Number<br /><br />
+
+<b>* Table 'RecurrencePattern'</b><br />
+- New field added: <b>CustomPropertiesXMLData</b> type: Memo<br /><br />
+
+If you need to use old mdb data fiels with a version 10 - please make corresponding changes manually.
+        </li>
+        <li>
+GetProperty(XTP_CALENDAR_PROP_DBProviderCacheMode) <strong>changed to</strong> GetCacheMode<br />
+SetProperty(XTP_CALENDAR_PROP_DBProviderCacheMode) <strong>changed to</strong> SetCacheMode
+        </li>
+        <li>
+xtpCalendarDBCacheModeOnRepeat<br />
+xtpCalendarDBCacheModeOnClear<br />
+xtpCalendarDBCacheModeOff<br /><br />
+<strong>Renamed as:</strong><br />
+xtpCalendarDPCacheModeOnRepeat<br />
+xtpCalendarDPCacheModeOnClear<br />
+xtpCalendarDPCacheModeOff
+        </li>
+    </ul></li>
+    </ol>
+</div>
+
+<div class="Note">
+    <div class="Version">Version 9.8.0</div>
+    <div class="Released">Released: September 26, 2005</div>
+    <div class="Type">ActiveX:</div>
+    <ol class="Type">
+    <li>Suite Pro<ul>
+        <li>
+Xtreme Suite ActiveX has had some significant changes made that need to be noted before updrading to 9.80 and above.<br /><br />
+The TaskPanel and ShortcutBar controls have been removed from the SuiteCtrls.OCX file.  Both the TaskPanel and ShortcutBar have their 
+own OCX file.  <strong>Important</strong> please note that all changes should be made by opening up the files in a text editor such as 
+WordPad. <strong>Do not</strong> open up the project and try to edit it with Visual Studio.
+        </li>
+        <li>
+<b>To upgrade existing VB6 project please follow the steps below:</b><br /><br />
+
+<b>Adding the GUID for TaskPanel and ShortcutBar Controls</b><br />
+        <ol>
+            <li class="b">
+If you are using the TaskPanel control add the following GUID to the .vbp and all .frm files the TaskPanel is used on:
+<pre>
+    Object={B8E5842E-102B-4289-9D57-3B3F5B5E15D3}#9.80#0; TaskPanel.ocx
+</pre>
+            </li>
+            <li class="b">
+If you are using the ShortcutBar control add the following GUID to the .vbp and all .frm files the ShortcutBar is used on:
+<pre>
+    Object={C8E5842E-102B-4289-9D57-3B3F5B5E15D3}#9.80#0; ShortcutBar.ocx
+</pre>	
+            </li>
+    </ol>
+<b>Removing Uneeded GUIDs if Neccessary</b>
+    <ol start="3">
+            <li class="b">			
+If you do not use any other controls from the SuiteCtrls.OCX file from version before 9.80 then you can remove the GUID for the Suite Control from the .vbp and all .frm files:
+<pre>
+    Object = "{A8E5842E-102B-4289-9D57-3B3F5B5E15D3}#9.60#0"; "SuiteCtrls.ocx"
+</pre>
+            </li>
+    </ol>
+<b>Renaming Control Names in .frm Files</b>
+    <ol start="4" class="b">
+        <li class="b">Change all occurences of XtremeSuiteControls.TaskPanel to XtremeTaskPanel.TaskPanel in each .frm file that contains a TaskPanel control.</li>
+        <li class="b">Change all occurences of XtremeSuiteControls.ShortcutBar to XtremeShortcutBar.ShortcutBar in each .frm file that contains a ShortcutBar control.</li>
+    </ol>
+<b>Renaming Event Handler Parameters</b>
+    <ol start="6">
+        <li class="b">Change all occurences of XtremeSuiteControls.ITaskPanel to XtremeTaskPanel.ITaskPanel in each .frm file that contains a TaskPanel control.</li>
+        <li class="b">Change all occurences of XtremeSuiteControls.ITaskPanelItem to XtremeTaskPanel.ITaskPanelItem in each .frm file that contains a TaskPanel control.</li>
+        <li class="b">Change all occurences of XtremeSuiteControls.ITaskPanelGroupItem to XtremeTaskPanel.ITaskPanelGroupItem in each .frm file that contains a TaskPanel control.</li>
+        <li class="b">Change all occurences of XtremeSuiteControls.ITaskPanelGroup to XtremeTaskPanel.ITaskPanelGroup in each .frm file that contains a TaskPanel control.</li>
+        <li class="b">Change all occurences of XtremeSuiteControls.IShortcutBarItem to XtremeShortcutBar.IShortcutBarItem in each .frm file that contains a ShortcutBar control.</li>
+    </ol>
+<b>You can use Help\UpgradeFrom970.vbs script to upgrade all files.</b>
+        </li>
+        <li>
+<b>To upgrade existing C# .NET project please follow the steps below:</b><br /><br />
+<b>Adding the TaskPanel and ShortcutBar References</b>
+    <ol class="b">
+        <li class="b">
+If you are using the TaskPanel control add the reference after the XtremeSuiteControls reference in the .csproj file:
+<pre>                
+&lt;Reference
+    Name = "XtremeTaskPanel"
+    Guid = "{B8E5842E-102B-4289-9D57-3B3F5B5E15D3}"
+    VersionMajor = "9"
+    VersionMinor = "80"
+    Lcid = "0"
+    WrapperTool = "tlbimp"
+/&gt;
+&lt;Reference
+    Name = "AxXtremeTaskPanel"
+    Guid = "{B8E5842E-102B-4289-9D57-3B3F5B5E15D3}"
+    VersionMajor = "9"
+    VersionMinor = "80"
+    Lcid = "0"
+    WrapperTool = "aximp"
+/&gt;
+</pre>
+        </li>
+        <li class="b">
+If you are using the ShortcutBar control add the reference after the XtremeSuiteControls reference in the .csproj file:
+<pre>                
+&lt;Reference
+    Name = "XtremeShortcutBar"
+    Guid = "{C8E5842E-102B-4289-9D57-3B3F5B5E15D3}"
+    VersionMajor = "9"
+    VersionMinor = "80"
+    Lcid = "0"
+    WrapperTool = "tlbimp"
+/&gt;
+    &lt;Reference
+    Name = "AxXtremeShortcutBar"
+    Guid = "{C8E5842E-102B-4289-9D57-3B3F5B5E15D3}"
+    VersionMajor = "9"
+    VersionMinor = "80"
+    Lcid = "0"
+    WrapperTool = "aximp"
+/&gt;
+</pre>
+        </li>
+        <li class="b">
+<strong>Important</strong> If your application still uses the PopupControl or TabControl you must update the VersionMajor and VersionMinor 
+properties of the XtremeSuiteControls and AxXtremeSuiteControls reference in the .csproj file to the current major and minor version to avoid ambiguities.<br /><br />
+        </li>
+    </ol>
+<b>Removing Uneeded References if Neccessary</b>
+    <ol class="b" start="4">
+        <li class="b">
+If you do not use any other controls from the SuiteCtrls.OCX file from versions before 9.80 (Popup Control or Tab Control) then you can remove the XtremeSuiteControls reference in the .csproj file:
+<pre>        
+&lt;Reference
+    Name = "XtremeSuiteControls"
+    Guid = "{A8E5842E-102B-4289-9D57-3B3F5B5E15D3}"
+    VersionMajor = "9"
+    VersionMinor = "60"
+    Lcid = "0"
+    WrapperTool = "tlbimp"
+/&gt;
+&lt;Reference
+    Name = "AxXtremeSuiteControls"
+    Guid = "{A8E5842E-102B-4289-9D57-3B3F5B5E15D3}"
+    VersionMajor = "9"
+    VersionMinor = "60"
+    Lcid = "0"
+    WrapperTool = "aximp"
+/&gt;					
+</pre>
+        </li>
+    </ol>
+<b>Updating "using" statements</b>					
+    <ol class="b" start="5">
+        <li class="b">
+If using the TaskPanel control, then add the following to all .cs files that may need it:
+<pre>
+    using XtremeTaskPanel;
+</pre>
+        </li>
+        <li class="b">
+If using the ShortcutBar control, then add the following to all .cs files that may need it:
+<pre>
+    using XtremeShortcutBar;
+</pre>
+        </li>
+    </ol>
+<b>Renaming Control Names in .cs Files</b>					
+    <ol class="b" start="7">
+        <li class="b">
+Change all occurences of AxXtremeSuiteControls.AxTaskPanel to AxXtremeTaskPanel.AxTaskPanel in each .cs file that contains a TaskPanel control.
+        </li>
+        <li class="b">
+Change all occurences of AxXtremeSuiteControls.AxShortcutBar to AxXtremeShortcutBar.AxShortcutBar in each .cs file that contains a ShortcutBar control.	
+        </li>
+        <li class="b">
+Change all occurences of AxXtremeSuiteControls.AxShortcutCaption to AxXtremeShortcutBar.AxShortcutCaption in each .cs file that contains a ShortcutBar Caption control.						
+        </li>
+    </ol>
+<b>Renaming Event Handler Parameters</b>
+    <ol class="b" start="10">
+        <li class="b">
+Change all occurences of AxXtremeSuiteControls._DTaskPanelEvents_xxxxEvent to AxXtremeTaskPanel._DTaskPanelEvents_xxxxEvent in each .cs file that contains a TaskPanel control.
+        </li>
+        <li class="b">
+Change all occurences of AxXtremeSuiteControls._DShortcutBarEvents_xxxxEvent to AxXtremeShortcutBar._DShortcutBarEvents_xxxxEvent in each .cs file that contains a ShortcutBar control.					
+        </li>
+    </ol>
+<b>Renaming XtremeSuiteControls Object References</b>
+    <ol class="b" start="12">
+        <li class="b">
+Search through all your .cs files for the "XtremeSuiteControls" string.  Update the string to "XtremeTaskPanel" if it refers to a TaskPanel Object.
+Search through all your .cs files for the "XtremeSuiteControls" string.  Update the string to "XtremeShortcutBar" if it refers to a ShortcutBar Object.
+Search through all your .cs files for the "XtremeSuiteControls" string.  Update the string to "XtremeShortcutBarCaption" if it refers to a ShortcutBarCaption Object.
+        </li>
+    </ol>
+        </li>
+    </ul></li>
+    <li>Command Bars<ul>
+        <li>
+<strong>Important Note:</strong>  The values for the theme enumeration have been changed.  You will need to check to make sure that your 
+theme has been set correctly if you used the CommandBars Designer Studio (*.XML or *.XCB), or if you set the theme at design 
+time in Visual Studio.  If you set the theme via code using a theme enumeration value then you do not need to make changes.  
+Effected themes are Default, Office XP, and Office 2003.
+        </li>
+    </ul></li>
+    <li>Docking Pane<ul>
+        <li>
+<strong>Important Note:</strong>  The values for the theme enumeration have been changed.  You will need to check to make sure that your theme 
+has been set correctly if you hard coded the theme (used the integer representation of the theme), or if you set the theme at 
+design time in Visual Studio. If you set the theme via code using a theme enumeration value then you do not need to make changes.  
+Effected themes are Office 2003 and Visio.
+        </li>
+    </ul></li>
+    </ol>
+</div>
+
+</div>
+</body>
+</html>
